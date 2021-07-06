@@ -1,9 +1,11 @@
 package vers1;
 
-import javax.print.attribute.standard.Destination;
 import java.util.Random;
 
 public class Traveler {
+
+    //tools
+    private Random random = new Random();
 
     //atributes
     private String nom;
@@ -72,11 +74,18 @@ public class Traveler {
 
     //methods
 
-    public void buyBillet(String destination, double prix){
+    public void buyBillet(Destination destination){
         if (this.billet != null){
             System.out.println(this.prenom + " already has a ticket");
         }else{
-            this.billet= new Billet((float)prix, destination, this);
+                this.billet= new Billet(destination, this);
+                Avion avion = this.billet.getDestination().getAvion();
+
+                int place = random.nextInt(avion.getNbPLaceDispo().size());
+                if (avion.getNbPLaceDispo().contains(place)){
+                    this.billet.setPlace(place);
+                    avion.nbPLaceDispo.remove(place);
+                }
 
             System.out.println(this.prenom + " bought a ticket");
         }

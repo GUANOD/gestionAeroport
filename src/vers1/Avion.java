@@ -2,7 +2,7 @@ package vers1;
 
 import java.util.ArrayList;
 
-abstract class Avion {
+abstract class Avion<integer> {
 
     public Avion(){};
 
@@ -12,16 +12,30 @@ abstract class Avion {
     protected int distanceMax;
     protected boolean vol_sol = false;
     protected ArrayList<Traveler> travellers;
-
+    protected ArrayList<Integer> nbPLaceDispo;
 
 
     protected Avion(String modele, int nbPlaces, int distanceMax) {
         this.modele = modele;
         this.nbPlaces = nbPlaces;
         this.distanceMax = distanceMax;
+        this.travellers= new ArrayList<>();
+        this.nbPLaceDispo = new ArrayList<>();
+        for (int i = 0; i < this.nbPlaces; i++){
+            nbPLaceDispo.add(i+1);
+        }
     }
 
     //getters/setters
+
+
+    public ArrayList<Integer> getNbPLaceDispo() {
+        return nbPLaceDispo;
+    }
+
+    public void setNbPLaceDispo(ArrayList<Integer> nbPLaceDispo) {
+        this.nbPLaceDispo = nbPLaceDispo;
+    }
 
     public String getModele() {
         return modele;

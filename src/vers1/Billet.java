@@ -3,21 +3,22 @@ package vers1;
 public class Billet {
 
     //atributes
-    private float prix;
-    private String destination;
+    private double prix;
+    private Destination destination;
     private Traveler traveler;
+    private int place;
 
     //construct
 
-    public Billet(float prix, String destination, Traveler traveler) {
-        this.prix = prix;
+    public Billet(Destination destination, Traveler traveler) {
+        this.prix = destination.getPrix();
         this.destination = destination;
         this.traveler = traveler;
     }
 
     //getters/setters
 
-    public float getPrix() {
+    public double getPrix() {
         return prix;
     }
 
@@ -25,13 +26,22 @@ public class Billet {
         this.prix = prix;
     }
 
-    public String getDestination() {
+    public int getPlace() {
+        return place;
+    }
+
+    public void setPlace(int place) {
+        this.place = place;
+    }
+
+    public void setDestination(Destination destination) {
+        this.destination = destination;
+    }
+
+    public Destination getDestination() {
         return destination;
     }
 
-    public void setDestination(String destination) {
-        this.destination = destination;
-    }
 
     public Traveler getTraveler() {
         return traveler;

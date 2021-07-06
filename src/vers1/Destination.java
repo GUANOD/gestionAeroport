@@ -5,12 +5,12 @@ import java.util.ArrayList;
 public class Destination {
 
     String nom;
-    int prix ;
-    ArrayList<Avion> avions;
+    double prix ;
+    Avion avion;
     int distance;
 
     //construc
-    public Destination(String nom, int prix, int distance) {
+    public Destination(String nom, double prix, int distance) {
         this.nom = nom;
         this.prix = prix;
         this.distance = distance;
@@ -25,7 +25,7 @@ public class Destination {
         this.nom = nom;
     }
 
-    public int getPrix() {
+    public Double getPrix() {
         return prix;
     }
 
@@ -34,12 +34,12 @@ public class Destination {
     }
 
 
-    public ArrayList<Avion> getAvions() {
-        return avions;
+    public Avion getAvion() {
+        return avion;
     }
 
     public void setAvions(ArrayList<Avion> avions) {
-        this.avions = avions;
+        this.avion = avion;
     }
 
     public int getDistance() {

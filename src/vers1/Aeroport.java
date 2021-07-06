@@ -16,6 +16,9 @@ public class Aeroport {
     public Aeroport(String lieu, int capacite) {
         this.lieu = lieu;
         this.capacite = capacite;
+        this.avions = new ArrayList<>();
+        this.billets = new ArrayList<>();
+        this.destinations = new ArrayList<>();
     }
 
     //getters/setters
