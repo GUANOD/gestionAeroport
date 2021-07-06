@@ -18,38 +18,63 @@ public class Main {
         AeroLourdes.addToDestinations( new Destination("Tarbes", 100, 30));
         AeroLourdes.addToDestinations( new Destination("NY", 2319.59, 5320));
 
+        // add avion to destinations
+        AeroLourdes.getDestinations().get(0).setAvions(AeroLourdes.getAvions().get(0));
+        AeroLourdes.getDestinations().get(1).setAvions(AeroLourdes.getAvions().get(1));
+        AeroLourdes.getDestinations().get(2).setAvions(AeroLourdes.getAvions().get(1));
+        AeroLourdes.getDestinations().get(3).setAvions(AeroLourdes.getAvions().get(0));
+
         // create passengers
-        Traveler psngr1 = new Traveler("Alba", "Jessica", 40);
-        Traveler psngr2 = new Traveler("Portman", "Natalie", 40);
-        Traveler psngr3 = new Traveler("Ratajkowski", "Emily", 30);
+        AeroLourdes.getTravelers().add(new Traveler("Alba", "Jessica", 40));
+        AeroLourdes.getTravelers().add(new Traveler("Portman", "Natalie", 40));
+        AeroLourdes.getTravelers().add(new Traveler("Ratajkowski", "Emily", 30));
 
-        //buy tickets
+        //test remplir avion
 
-//        psngr1.buyBillet(AeroLourdes.getDestinations().get(0));
-////        psngr2.buyBillet("Greece", 2190.99);
-////        psngr3.buyBillet("Maldives", 1999.58);
-////
-////        // test limits
-////        psngr1.buyBillet("Maldives", 2000);
-////        psngr2.buyBillet("Greece", 2190.99);
-////        psngr3.buyBillet("Maldives", 1999.58);
+//        ArrayList <Traveler> group = new ArrayList<>();
 //
-//        // jump too plane
-//
-//        psngr1.goToPlane(AeroLourdes.getAvions().get(0));
-//        psngr2.goToPlane(AeroLourdes.getAvions().get(1));
-//        psngr3.goToPlane(AeroLourdes.getAvions().get(0));
-//
-//        //test
-//        psngr1.goToPlane(AeroLourdes.getAvions().get(0));
-//        psngr2.goToPlane(AeroLourdes.getAvions().get(1));
-//        psngr3.goToPlane(AeroLourdes.getAvions().get(0));
-//
-//        //show travellers
-//
-//        for (Avion avion : AeroLourdes.getAvions()){
-//            avion.showTravelerList();
+//        for(int i =0; i<77; i++){
+//            group.add(new Traveler("Alba", "Jessica", 40));
 //        }
+
+//        psngr1.buyBillet(AeroLourdes.getDestinations().get(1));
+//
+//        System.out.println("avant: " + psngr1.getBillet().getDestination().getAvion().getNbPLaceDispo().size());
+//
+//        for (Traveler pass: group){
+//            pass.buyBillet(AeroLourdes.getDestinations().get(1));
+//            System.out.println("places dispo apres : " +pass.getBillet().getDestination().getAvion().getNbPLaceDispo().size());
+//            System.out.println("place du pass : "+ pass.getBillet().getPlace());
+//        }
+
+
+//        buy tickets
+       AeroLourdes.getTravelers().get(0).buyBillet(AeroLourdes.getDestinations().get(0));
+       AeroLourdes.getTravelers().get(1).buyBillet(AeroLourdes.getDestinations().get(1));
+       AeroLourdes.getTravelers().get(2).buyBillet(AeroLourdes.getDestinations().get(3));
+
+        // show destination, plane, and ticket price for each passenger
+
+        for (Traveler pass : AeroLourdes.getTravelers()){
+            System.out.println(pass.getNom()
+                    + " achete un billet vers " + pass.getBillet().getDestination().getNom()
+                    + " dans un " + pass.getBillet().getDestination().getAvion().getModele()
+                    + " assise a la place " + pass.getBillet().getPlace()
+                    + " pour un prix de " + pass.getBillet().getPrix());
+        }
+
+
+        // jump too plane
+
+        for (Traveler pass : AeroLourdes.getTravelers()){
+            pass.goToPlane();
+        }
+//
+        //show travellers
+
+        for (Avion avion : AeroLourdes.getAvions()){
+            avion.showTravelerList();
+        }
 //
 //        // launch planes
 //        AeroLourdes.getAvions().get(0).fly();
@@ -59,8 +84,8 @@ public class Main {
 //        AeroLourdes.getAvions().get(0).fly();
 //        AeroLourdes.getAvions().get(1).fly();
 
-        for(Object number : AeroLourdes.getAvions().get(1).getNbPLaceDispo()){
-            System.out.println(number);
-        }
+//        for(Object number : AeroLourdes.getAvions().get(1).getNbPLaceDispo()){
+//            System.out.println(number);
+//        }
     }
 }

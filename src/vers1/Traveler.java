@@ -13,7 +13,6 @@ public class Traveler {
     private int age;
     private Billet billet;
     private  boolean embarque = false;
-    private Avion avion;
 
     // construct
     public Traveler(String nom, String prenom, int age) {
@@ -30,14 +29,6 @@ public class Traveler {
 
     public void setEmbarque(boolean embarque) {
         this.embarque = embarque;
-    }
-
-    public Avion getAvion() {
-        return avion;
-    }
-
-    public void setAvion(Avion avion) {
-        this.avion = avion;
     }
 
     public String getNom() {
@@ -81,11 +72,9 @@ public class Traveler {
                 this.billet= new Billet(destination, this);
                 Avion avion = this.billet.getDestination().getAvion();
 
-                int place = random.nextInt(avion.getNbPLaceDispo().size());
-                if (avion.getNbPLaceDispo().contains(place)){
-                    this.billet.setPlace(place);
-                    avion.nbPLaceDispo.remove(place);
-                }
+                int index = random.nextInt(avion.getNbPLaceDispo().size());
+                this.billet.setPlace((int) avion.getNbPLaceDispo().get(index));
+                avion.nbPLaceDispo.remove(index);
 
             System.out.println(this.prenom + " bought a ticket");
         }
@@ -96,14 +85,13 @@ public class Traveler {
         System.out.println("Billet reemboursee");
     }
 
-    public void goToPlane(Avion avion){
+    public void goToPlane(){
         if(this.embarque){
-            System.out.println(this.prenom + " est deja dans " + this.avion.getModele());
+            System.out.println(this.prenom + " est deja dans " + this.getBillet().getDestination().getAvion().getModele());
         }else{
-            avion.addTraveler(this);
+            this.getBillet().getDestination().getAvion().addTraveler(this);
             this.embarque=true;
-            this.avion=avion;
-            System.out.println(this.prenom + " embarque " + this.avion.getModele());
+            System.out.println(this.prenom + " embarque " + this.getBillet().getDestination().getAvion().getModele());
         }
     }
 }

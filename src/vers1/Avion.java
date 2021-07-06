@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 abstract class Avion<integer> {
 
-    public Avion(){};
+    public Avion(){}
 
     //atributes
     protected String modele;
@@ -87,9 +87,9 @@ abstract class Avion<integer> {
 
     public void addTraveler(Traveler traveler){
         travellers.add(traveler);
-    };
+    }
 
-    public void fly(){
+    public void fly(){  //TODO:
         if(this.vol_sol){
             this.vol_sol=false;
             System.out.println("##### " + this.modele + " has landed #####");
@@ -100,12 +100,12 @@ abstract class Avion<integer> {
             this.vol_sol= true;
             System.out.println(this.modele + " prends vol");
         }
-    };
+    }
 
     public void  showTravelerList(){
         System.out.println("##### Passengers in " +this.modele+ " #####");
         for (Traveler traveler : travellers){
             System.out.println(traveler.getNom() + " " + traveler.getPrenom() + " age " + traveler.getAge());
         }
-    };
+    }
 }
