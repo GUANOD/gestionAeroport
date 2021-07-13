@@ -100,6 +100,10 @@ abstract class Avion<integer> {
     }
 
     public void fly() {  //TODO:
+        if (this.travelers.size() == 0){
+            System.out.println(this.modele + " can't fly because it has no passengers");
+            return;
+        }
         if (this.vol_sol) {
             System.out.println(this.modele + " is already on road to " + this.destination.getNom());
         } else {
@@ -111,7 +115,7 @@ abstract class Avion<integer> {
 
     public void land(){
         if (!this.vol_sol){
-            System.out.println(this.modele + " is landed with " + this.travelers.size() + " passengers waiting.");
+            System.out.println(this.modele + " is already on the ground " + this.travelers.size() + " passengers waiting.");
         } else{
             this.vol_sol=false;
             System.out.println(this.modele + " has landed");
@@ -127,8 +131,13 @@ abstract class Avion<integer> {
 
     public void  showTravelerList(){
         System.out.println("##### Passengers in " +this.modele+ " #####");
-        for (Traveler traveler : travelers){
-            System.out.println(traveler.getNom() + " " + traveler.getPrenom() + " age " + traveler.getAge());
+        if (travelers.size() == 0){
+            System.out.println(this.modele + " has no passengers.");
+        }else{
+            for (Traveler traveler : travelers){
+                System.out.println(traveler.getNom() + " " + traveler.getPrenom() + " age " + traveler.getAge());
+            }
         }
+
     }
 }

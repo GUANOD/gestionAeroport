@@ -79,7 +79,7 @@ public class Main {
 
         //delete 1 ticket
 
-        AeroLourdes.getTravelers().get(2).deleteTravel();
+        AeroLourdes.getTravelers().get(2).deleteTravel("Annulation");
 
         // jump too plane
 

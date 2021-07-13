@@ -10,12 +10,14 @@ public class Traveler {
     private int age;
     private Billet billet;
     private  boolean embarque = false;
+    private boolean passSanitaire;
 
     // construct
     public Traveler(String nom, String prenom, int age) {
         this.nom = nom;
         this.prenom = prenom;
         this.age = age;
+        this.passSanitaire = new Random().nextBoolean();
     }
 
     //getters/setters
@@ -75,10 +77,10 @@ public class Traveler {
         }
     }
 
-    public void deleteTravel(){
+    public void deleteTravel(String reason){
         this.billet.getAvion().getNbPLaceDispo().add(this.billet.getPlace());
         this.billet = null;
-        System.out.println(this.nom + " Billet reemboursee");
+        System.out.println(this.nom + " Billet reemboursee car " + reason);
     }
 
     public void goToPlane(){
@@ -87,8 +89,15 @@ public class Traveler {
             return;
         }
 
+        if (!this.passSanitaire){
+            System.out.println(this.nom + " is dirty!! NO FLY TO " + this.billet.getDestination().getNom().toUpperCase());
+            deleteTravel("Strong with the SICKNESS");
+            return;
+        }
+
         if(this.embarque){
             System.out.println(this.prenom + " est deja dans " + this.getBillet().getDestination().getAvion().getModele());
+
         }else{
             this.getBillet().getDestination().getAvion().addTraveler(this);
             this.embarque=true;
