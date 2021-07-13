@@ -13,7 +13,6 @@ public class Aeroport {
     private ArrayList<Destination> destinations;
     private ArrayList<Traveler> travelers; // j'ai ajoute un array de passagers ca me parait correct quoi
 
-
     //constr
     public Aeroport(String lieu, int capacite) {
         this.lieu = lieu;
@@ -98,8 +97,4 @@ public class Aeroport {
             System.out.println(avion.getNbPlaces());
         }
     }
-
-//    public static Billet generateBillet() {
-//        return new Billet()
-//    }
 }

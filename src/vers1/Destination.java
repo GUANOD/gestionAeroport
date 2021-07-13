@@ -40,6 +40,7 @@ public class Destination {
 
     public void setAvions(Avion avion) {
         this.avion = avion;
+        avion.setDestination(this);
     }
 
     public int getDistance() {

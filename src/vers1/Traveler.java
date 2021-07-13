@@ -4,9 +4,6 @@ import java.util.Random;
 
 public class Traveler {
 
-    //tools
-    private Random random = new Random();
-
     //atributes
     private String nom;
     private String prenom;
@@ -23,7 +20,7 @@ public class Traveler {
 
     //getters/setters
 
-    public boolean isEmbarque() {
+    public boolean getEmbarque() {
         return embarque;
     }
 
@@ -69,23 +66,27 @@ public class Traveler {
         if (this.billet != null){
             System.out.println(this.prenom + " already has a ticket");
         }else{
-                this.billet= new Billet(destination, this);
-                Avion avion = this.billet.getDestination().getAvion();
-
-                int index = random.nextInt(avion.getNbPLaceDispo().size());
-                this.billet.setPlace((int) avion.getNbPLaceDispo().get(index));
-                avion.nbPLaceDispo.remove(index);
-
+            this.billet= new Billet(destination, this);
+            Avion avion = this.billet.getDestination().getAvion();
+            int index = new Random().nextInt(avion.getNbPLaceDispo().size());
+            this.billet.setPlace((int) avion.getNbPLaceDispo().get(index));
+            avion.nbPLaceDispo.remove(index);
             System.out.println(this.prenom + " bought a ticket");
         }
     }
 
     public void deleteTravel(){
+        this.billet.getAvion().getNbPLaceDispo().add(this.billet.getPlace());
         this.billet = null;
-        System.out.println("Billet reemboursee");
+        System.out.println(this.nom + " Billet reemboursee");
     }
 
     public void goToPlane(){
+        if (this.billet == null){
+            System.out.println(this.getNom() + " does not have a ticket");
+            return;
+        }
+
         if(this.embarque){
             System.out.println(this.prenom + " est deja dans " + this.getBillet().getDestination().getAvion().getModele());
         }else{

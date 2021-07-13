@@ -11,6 +11,8 @@ public class Main {
         //add avions
         AeroLourdes.AddToAvions(new AvionGL("Airbus A380", 853, 15000));
         AeroLourdes.AddToAvions(new AvionLI("Embraer 175", 78, 4074 ));
+        AeroLourdes.AddToAvions(new AvionGL("Embraer 200", 400, 10000 ));
+        AeroLourdes.AddToAvions(new AvionLI("Airbus A2", 50, 3500));
 
         //create destinations
         AeroLourdes.addToDestinations( new Destination("Maldives", 1999.58, 2000 ));
@@ -21,13 +23,19 @@ public class Main {
         // add avion to destinations
         AeroLourdes.getDestinations().get(0).setAvions(AeroLourdes.getAvions().get(0));
         AeroLourdes.getDestinations().get(1).setAvions(AeroLourdes.getAvions().get(1));
-        AeroLourdes.getDestinations().get(2).setAvions(AeroLourdes.getAvions().get(1));
-        AeroLourdes.getDestinations().get(3).setAvions(AeroLourdes.getAvions().get(0));
+        AeroLourdes.getDestinations().get(2).setAvions(AeroLourdes.getAvions().get(3));
+        AeroLourdes.getDestinations().get(3).setAvions(AeroLourdes.getAvions().get(2));
 
         // create passengers
         AeroLourdes.getTravelers().add(new Traveler("Alba", "Jessica", 40));
         AeroLourdes.getTravelers().add(new Traveler("Portman", "Natalie", 40));
         AeroLourdes.getTravelers().add(new Traveler("Ratajkowski", "Emily", 30));
+        AeroLourdes.getTravelers().add(new Traveler("Paradis", "Vanessa", 30));
+        AeroLourdes.getTravelers().add(new Traveler("Itre", "Mayte", 60));
+        AeroLourdes.getTravelers().add(new Traveler("Bardot", "Brigitte", 30));
+        AeroLourdes.getTravelers().add(new Traveler("Macron", "Brigitte", 70));
+        AeroLourdes.getTravelers().add(new Traveler("B", "Cardi", 43));
+        AeroLourdes.getTravelers().add(new Traveler("Lavigne", "Avril", 16));
 
         //test remplir avion
 
@@ -52,6 +60,12 @@ public class Main {
        AeroLourdes.getTravelers().get(0).buyBillet(AeroLourdes.getDestinations().get(0));
        AeroLourdes.getTravelers().get(1).buyBillet(AeroLourdes.getDestinations().get(1));
        AeroLourdes.getTravelers().get(2).buyBillet(AeroLourdes.getDestinations().get(3));
+       AeroLourdes.getTravelers().get(3).buyBillet(AeroLourdes.getDestinations().get(2));
+       AeroLourdes.getTravelers().get(4).buyBillet(AeroLourdes.getDestinations().get(3));
+       AeroLourdes.getTravelers().get(5).buyBillet(AeroLourdes.getDestinations().get(1));
+       AeroLourdes.getTravelers().get(6).buyBillet(AeroLourdes.getDestinations().get(0));
+       AeroLourdes.getTravelers().get(7).buyBillet(AeroLourdes.getDestinations().get(2));
+       AeroLourdes.getTravelers().get(8).buyBillet(AeroLourdes.getDestinations().get(3));
 
         // show destination, plane, and ticket price for each passenger
 
@@ -63,6 +77,9 @@ public class Main {
                     + " pour un prix de " + pass.getBillet().getPrix());
         }
 
+        //delete 1 ticket
+
+        AeroLourdes.getTravelers().get(2).deleteTravel();
 
         // jump too plane
 
@@ -75,17 +92,20 @@ public class Main {
         for (Avion avion : AeroLourdes.getAvions()){
             avion.showTravelerList();
         }
-//
-//        // launch planes
-//        AeroLourdes.getAvions().get(0).fly();
-//        AeroLourdes.getAvions().get(1).fly();
-//
-//        //land planes
-//        AeroLourdes.getAvions().get(0).fly();
-//        AeroLourdes.getAvions().get(1).fly();
 
-//        for(Object number : AeroLourdes.getAvions().get(1).getNbPLaceDispo()){
-//            System.out.println(number);
-//        }
+        // fly
+
+        for(Avion avion :AeroLourdes.getAvions()){
+            avion.fly();
+        }
+
+        for(Avion avion :AeroLourdes.getAvions()){
+            avion.fly();
+        }
+
+        for(Avion avion :AeroLourdes.getAvions()){
+            avion.land();
+        }
+
     }
 }
