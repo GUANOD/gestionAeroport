@@ -79,8 +79,9 @@ public class Main {
 
         //delete 1 ticket
 
-        AeroLourdes.getTravelers().get(2).deleteTravel("Annulation");
 
+        AeroLourdes.getTravelers().get(2).deleteTravelPS("Annulation");
+        AeroLourdes.getTravelers().get(2).deleteTravelIS("She's in jail !");
         // jump too plane
 
         for (Traveler pass : AeroLourdes.getTravelers()){

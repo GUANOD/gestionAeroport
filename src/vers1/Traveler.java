@@ -9,8 +9,9 @@ public class Traveler {
     private String prenom;
     private int age;
     private Billet billet;
-    private  boolean embarque = false;
+    private boolean embarque = false;
     private boolean passSanitaire;
+    private boolean illegalStuff;
 
     // construct
     public Traveler(String nom, String prenom, int age) {
@@ -18,6 +19,7 @@ public class Traveler {
         this.prenom = prenom;
         this.age = age;
         this.passSanitaire = new Random().nextBoolean();
+        this.illegalStuff = new Random().nextBoolean();
     }
 
     //getters/setters
@@ -64,11 +66,11 @@ public class Traveler {
 
     //methods
 
-    public void buyBillet(Destination destination){
-        if (this.billet != null){
+    public void buyBillet(Destination destination) {
+        if (this.billet != null) {
             System.out.println(this.prenom + " already has a ticket");
-        }else{
-            this.billet= new Billet(destination, this);
+        } else {
+            this.billet = new Billet(destination, this);
             Avion avion = this.billet.getDestination().getAvion();
             int index = new Random().nextInt(avion.getNbPLaceDispo().size());
             this.billet.setPlace((int) avion.getNbPLaceDispo().get(index));
@@ -77,31 +79,42 @@ public class Traveler {
         }
     }
 
-    public void deleteTravel(String reason){
+    public void deleteTravelPS(String reason) {
         this.billet.getAvion().getNbPLaceDispo().add(this.billet.getPlace());
         this.billet = null;
         System.out.println(this.nom + " Billet reemboursee car " + reason);
+
     }
 
-    public void goToPlane(){
-        if (this.billet == null){
+    public void deleteTravelIS(String reason) {
+        this.billet.getAvion().getNbPLaceDispo().add(this.billet.getPlace());
+        this.billet = null;
+        System.out.println(this.nom + " Billet non remboursé car " + reason);
+    }
+
+    public void goToPlane() {
+
+        if (!this.passSanitaire) {
+            System.out.println(this.nom + " is dirty!! NO FLY TO " + this.billet.getDestination().getNom().toUpperCase());
+            deleteTravelPS("Strong with the SICKNESS");
+            return;
+        } else if (!this.illegalStuff) {
+            System.out.println(this.nom + " has illegal stuff in her bag !!  She can't fly to " + this.billet.getDestination().getNom().toUpperCase());
+            deleteTravelIS("She's a bad girl");
+            return;
+        } else if (this.billet == null) {
             System.out.println(this.getNom() + " does not have a ticket");
             return;
         }
 
-        if (!this.passSanitaire){
-            System.out.println(this.nom + " is dirty!! NO FLY TO " + this.billet.getDestination().getNom().toUpperCase());
-            deleteTravel("Strong with the SICKNESS");
-            return;
-        }
-
-        if(this.embarque){
+        if (this.embarque) {
             System.out.println(this.prenom + " est deja dans " + this.getBillet().getDestination().getAvion().getModele());
 
-        }else{
+        } else {
             this.getBillet().getDestination().getAvion().addTraveler(this);
-            this.embarque=true;
+            this.embarque = true;
             System.out.println(this.prenom + " embarque " + this.getBillet().getDestination().getAvion().getModele());
         }
     }
 }
+
