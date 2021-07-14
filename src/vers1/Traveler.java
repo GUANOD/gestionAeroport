@@ -4,40 +4,30 @@ import java.util.Random;
 
 public class Traveler {
 
-    //tools
-    private Random random = new Random();
-
     //atributes
     private String nom;
     private String prenom;
     private int age;
     private Billet billet;
     private  boolean embarque = false;
-    private Avion avion;
+    private boolean passSanitaire;
 
     // construct
     public Traveler(String nom, String prenom, int age) {
         this.nom = nom;
         this.prenom = prenom;
         this.age = age;
+        this.passSanitaire = new Random().nextBoolean();
     }
 
     //getters/setters
 
-    public boolean isEmbarque() {
+    public boolean getEmbarque() {
         return embarque;
     }
 
     public void setEmbarque(boolean embarque) {
         this.embarque = embarque;
-    }
-
-    public Avion getAvion() {
-        return avion;
-    }
-
-    public void setAvion(Avion avion) {
-        this.avion = avion;
     }
 
     public String getNom() {
@@ -78,32 +68,40 @@ public class Traveler {
         if (this.billet != null){
             System.out.println(this.prenom + " already has a ticket");
         }else{
-                this.billet= new Billet(destination, this);
-                Avion avion = this.billet.getDestination().getAvion();
-
-                int place = random.nextInt(avion.getNbPLaceDispo().size());
-                if (avion.getNbPLaceDispo().contains(place)){
-                    this.billet.setPlace(place);
-                    avion.nbPLaceDispo.remove(place);
-                }
-
+            this.billet= new Billet(destination, this);
+            Avion avion = this.billet.getDestination().getAvion();
+            int index = new Random().nextInt(avion.getNbPLaceDispo().size());
+            this.billet.setPlace((int) avion.getNbPLaceDispo().get(index));
+            avion.nbPLaceDispo.remove(index);
             System.out.println(this.prenom + " bought a ticket");
         }
     }
 
-    public void deleteTravel(){
+    public void deleteTravel(String reason){
+        this.billet.getAvion().getNbPLaceDispo().add(this.billet.getPlace());
         this.billet = null;
-        System.out.println("Billet reemboursee");
+        System.out.println(this.nom + " Billet reemboursee car " + reason);
     }
 
-    public void goToPlane(Avion avion){
+    public void goToPlane(){
+        if (this.billet == null){
+            System.out.println(this.getNom() + " does not have a ticket");
+            return;
+        }
+
+        if (!this.passSanitaire){
+            System.out.println(this.nom + " is dirty!! NO FLY TO " + this.billet.getDestination().getNom().toUpperCase());
+            deleteTravel("Strong with the SICKNESS");
+            return;
+        }
+
         if(this.embarque){
-            System.out.println(this.prenom + " est deja dans " + this.avion.getModele());
+            System.out.println(this.prenom + " est deja dans " + this.getBillet().getDestination().getAvion().getModele());
+
         }else{
-            avion.addTraveler(this);
+            this.getBillet().getDestination().getAvion().addTraveler(this);
             this.embarque=true;
-            this.avion=avion;
-            System.out.println(this.prenom + " embarque " + this.avion.getModele());
+            System.out.println(this.prenom + " embarque " + this.getBillet().getDestination().getAvion().getModele());
         }
     }
 }

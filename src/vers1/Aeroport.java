@@ -11,6 +11,7 @@ public class Aeroport {
     private ArrayList<Avion> avions;
     private ArrayList<Billet> billets;
     private ArrayList<Destination> destinations;
+    private ArrayList<Traveler> travelers; // j'ai ajoute un array de passagers ca me parait correct quoi
 
     //constr
     public Aeroport(String lieu, int capacite) {
@@ -19,9 +20,19 @@ public class Aeroport {
         this.avions = new ArrayList<>();
         this.billets = new ArrayList<>();
         this.destinations = new ArrayList<>();
+        this.travelers = new ArrayList<>();
     }
 
     //getters/setters
+
+    public ArrayList<Traveler> getTravelers() {
+        return travelers;
+    }
+
+    public void setTravelers(ArrayList<Traveler> travelers) {
+        this.travelers = travelers;
+    }
+
     public String getLieu() {
         return lieu;
     }
@@ -86,8 +97,4 @@ public class Aeroport {
             System.out.println(avion.getNbPlaces());
         }
     }
-
-//    public static Billet generateBillet() {
-//        return new Billet()
-//    }
 }

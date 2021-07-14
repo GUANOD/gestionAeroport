@@ -6,6 +6,8 @@ public class Billet {
     private double prix;
     private Destination destination;
     private Traveler traveler;
+    //jai rajoute l'avion ici au lieu de le rajouter dans traveller car il me parait plus logique
+    private Avion avion;
     private int place;
 
     //construct
@@ -14,16 +16,13 @@ public class Billet {
         this.prix = destination.getPrix();
         this.destination = destination;
         this.traveler = traveler;
+        this.avion = destination.getAvion();
     }
 
     //getters/setters
 
     public double getPrix() {
         return prix;
-    }
-
-    public void setPrix(float prix) {
-        this.prix = prix;
     }
 
     public int getPlace() {
@@ -34,8 +33,17 @@ public class Billet {
         this.place = place;
     }
 
+    public Avion getAvion() {
+        return avion;
+    }
+
+    public void setAvion(Avion avion) {
+        this.avion = avion;
+    }
+
     public void setDestination(Destination destination) {
         this.destination = destination;
+        this.prix=destination.getPrix();
     }
 
     public Destination getDestination() {
@@ -50,19 +58,5 @@ public class Billet {
     public void setTraveler(Traveler traveler) {
         this.traveler = traveler;
     }
-
-    //methods
-
-//    public void addDestination(String destination){
-//        this.destination = destination;
-//    }
-
-//    public void addPassager(){
-//        ugh??
-//    }
-
-//    public void addPrice(){
-//        uuuuggggggh???
-//    }
 
 }
