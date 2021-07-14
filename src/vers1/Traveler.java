@@ -93,17 +93,17 @@ public class Traveler {
     }
 
     public void goToPlane() {
-
-        if (!this.passSanitaire) {
+        if (this.billet == null) {
+            System.out.println(this.getNom() + " does not have a ticket");
+            return;
+        }
+        else if (!this.passSanitaire) {
             System.out.println(this.nom + " is dirty!! NO FLY TO " + this.billet.getDestination().getNom().toUpperCase());
             deleteTravelPS("Strong with the SICKNESS");
             return;
         } else if (!this.illegalStuff) {
             System.out.println(this.nom + " has illegal stuff in her bag !!  She can't fly to " + this.billet.getDestination().getNom().toUpperCase());
             deleteTravelIS("She's a bad girl");
-            return;
-        } else if (this.billet == null) {
-            System.out.println(this.getNom() + " does not have a ticket");
             return;
         }
 

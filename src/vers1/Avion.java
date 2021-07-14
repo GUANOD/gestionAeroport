@@ -14,14 +14,18 @@ abstract class Avion<integer> {
     protected ArrayList<Traveler> travelers;
     protected ArrayList<Integer> nbPLaceDispo;
     protected Destination destination;
+    protected double conso;
+    protected int capaReserv;
 
 
-    protected Avion(String modele, int nbPlaces, int distanceMax) {
+    protected Avion(String modele, int nbPlaces, int distanceMax, double conso, int capaReserv) {
         this.modele = modele;
         this.nbPlaces = nbPlaces;
         this.distanceMax = distanceMax;
         this.travelers = new ArrayList<>();
         populatePlaceDispo();
+        this.conso = conso;
+        this.capaReserv = capaReserv;
     }
 
     //getters/setters
@@ -48,6 +52,22 @@ abstract class Avion<integer> {
 
     public String getModele() {
         return modele;
+    }
+
+    public double getConso() {
+        return conso;
+    }
+
+    public void setConso(double conso) {
+        this.conso = conso;
+    }
+
+    public int getCapaReserv() {
+        return capaReserv;
+    }
+
+    public void setCapaReserv(int capaReserv) {
+        this.capaReserv = capaReserv;
     }
 
     public void setModele(String modele) {
@@ -138,6 +158,16 @@ abstract class Avion<integer> {
                 System.out.println(traveler.getNom() + " " + traveler.getPrenom() + " age " + traveler.getAge());
             }
         }
+    }
 
+    public void consommation(){
+        int fuelTank = this.getCapaReserv();
+        double conso = this.getConso();
+        int dist = this.getDestination().getDistance();
+
+        double consoFuel = conso * dist;
+        double restFuel = fuelTank - consoFuel;
+        System.out.println("L'avion " + this.modele + " à consommé " + consoFuel + " litres de carburant");
+        System.out.println("Il reste " + restFuel + " dans l'avion " + this.modele);
     }
 }

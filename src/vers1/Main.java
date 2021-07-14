@@ -9,10 +9,10 @@ public class Main {
         Aeroport AeroLourdes = new Aeroport("Lourdes", 20);
 
         //add avions
-        AeroLourdes.AddToAvions(new AvionGL("Airbus A380", 853, 15000));
-        AeroLourdes.AddToAvions(new AvionLI("Embraer 175", 78, 4074 ));
-        AeroLourdes.AddToAvions(new AvionGL("Embraer 200", 400, 10000 ));
-        AeroLourdes.AddToAvions(new AvionLI("Airbus A2", 50, 3500));
+        AeroLourdes.AddToAvions(new AvionGL("Airbus A380", 853, 15000, 1, 10000));
+        AeroLourdes.AddToAvions(new AvionLI("Embraer 175", 78, 4074,1,7500 ));
+        AeroLourdes.AddToAvions(new AvionGL("Embraer 200", 400, 10000, 1,1000));
+        AeroLourdes.AddToAvions(new AvionLI("Airbus A2", 50, 3500, 1, 150));
 
         //create destinations
         AeroLourdes.addToDestinations( new Destination("Maldives", 1999.58, 2000 ));
@@ -106,6 +106,7 @@ public class Main {
 
         for(Avion avion :AeroLourdes.getAvions()){
             avion.land();
+            avion.consommation();
         }
 
     }
