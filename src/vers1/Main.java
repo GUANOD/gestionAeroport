@@ -18,7 +18,7 @@ public class Main {
         AeroLourdes.addToDestinations( new Destination("Maldives", 1999.58, 2000 ));
         AeroLourdes.addToDestinations( new Destination("Greece", 2190.00, 530 ));
         AeroLourdes.addToDestinations( new Destination("Tarbes", 100, 30));
-        AeroLourdes.addToDestinations( new Destination("NY", 2319.59, 5320));
+        AeroLourdes.addToDestinations( new Destination("NY", 239.59, 5320));
 
         // add avion to destinations
         AeroLourdes.getDestinations().get(0).setAvions(AeroLourdes.getAvions().get(0));
@@ -102,6 +102,8 @@ public class Main {
         for(Avion avion :AeroLourdes.getAvions()){
             avion.fly();
         }
+
+        // land
 
         for(Avion avion :AeroLourdes.getAvions()){
             avion.land();
