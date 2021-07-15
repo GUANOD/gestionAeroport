@@ -2,7 +2,7 @@ package vers1;
 
 import java.util.ArrayList;
 
-abstract class Avion<integer> {
+abstract class Avion{
 
     public Avion(){}
 
@@ -99,7 +99,7 @@ abstract class Avion<integer> {
         travelers.add(traveler);
     }
 
-    public void fly() {  //TODO:
+    public void fly() {
         if (this.travelers.size() == 0){
             System.out.println(this.modele + " can't fly because it has no passengers");
             return;
@@ -138,6 +138,5 @@ abstract class Avion<integer> {
                 System.out.println(traveler.getNom() + " " + traveler.getPrenom() + " age " + traveler.getAge());
             }
         }
-
     }
 }

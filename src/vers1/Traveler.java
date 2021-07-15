@@ -11,16 +11,27 @@ public class Traveler {
     private Billet billet;
     private  boolean embarque = false;
     private boolean passSanitaire;
+    private Aeroport airport;
 
     // construct
-    public Traveler(String nom, String prenom, int age) {
+    public Traveler(String nom, String prenom, int age, Aeroport airport) {
         this.nom = nom;
         this.prenom = prenom;
         this.age = age;
         this.passSanitaire = new Random().nextBoolean();
+        this.airport= airport;
     }
 
     //getters/setters
+
+
+    public Aeroport getAirport() {
+        return airport;
+    }
+
+    public void setAirport(Aeroport airport) {
+        this.airport = airport;
+    }
 
     public boolean getEmbarque() {
         return embarque;
@@ -74,6 +85,7 @@ public class Traveler {
             this.billet.setPlace((int) avion.getNbPLaceDispo().get(index));
             avion.nbPLaceDispo.remove(index);
             System.out.println(this.prenom + " bought a ticket");
+            this.airport.getBillets().add(this.billet);
         }
     }
 

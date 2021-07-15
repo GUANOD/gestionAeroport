@@ -1,14 +1,75 @@
 package vers1;
 
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
+
+
+
     public static void main(String[] args) {
+
+//        ArrayList<String> menu = new ArrayList<>();
+//
+//        JFrame frame = new JFrame();
+//        frame.setTitle("Airport manager");
+//        frame.setSize(500,500);
+//        JList list = new JList((ListModel) menu);
+//        JButton button = new JButton("Valider");
+//        button.setBounds(20,20,100,100);
+//        frame.add(button);
+//        JTextField text = new JTextField();
+//        frame.add(text);
+//        frame.setVisible(true);
+
+
         ArrayList<Aeroport> airports = new ArrayList<>();
 
         airports.add(firstAirport());
+
+        // add avions
+        airports.get(0).AddToAvions(new AvionGL("Airbus A380", 853, 15000));
+        airports.get(0).AddToAvions(new AvionLI("Embraer 175", 78, 4074 ));
+        airports.get(0).AddToAvions(new AvionGL("Embraer 200", 400, 10000 ));
+        airports.get(0).AddToAvions(new AvionLI("Airbus A2", 50, 3500));
+
+        //create destinations
+        airports.get(0).addToDestinations( new Destination("Maldives", 1999.58, 2000 ));
+        airports.get(0).addToDestinations( new Destination("Greece", 2190.00, 530 ));
+        airports.get(0).addToDestinations( new Destination("Tarbes", 100, 30));
+        airports.get(0).addToDestinations( new Destination("NY", 2319.59, 5320));
+
+        // create passengers
+        airports.get(0).getTravelers().add(new Traveler("Alba", "Jessica", 40, airports.get(0)));
+        airports.get(0).getTravelers().add(new Traveler("Portman", "Natalie", 40, airports.get(0)));
+        airports.get(0).getTravelers().add(new Traveler("Ratajkowski", "Emily", 30, airports.get(0)));
+        airports.get(0).getTravelers().add(new Traveler("Paradis", "Vanessa", 30, airports.get(0)));
+        airports.get(0).getTravelers().add(new Traveler("Itre", "Mayte", 60, airports.get(0)));
+        airports.get(0).getTravelers().add(new Traveler("Bardot", "Brigitte", 30, airports.get(0)));
+        airports.get(0).getTravelers().add(new Traveler("Macron", "Brigitte", 70, airports.get(0)));
+        airports.get(0).getTravelers().add(new Traveler("B", "Cardi", 43, airports.get(0)));
+        airports.get(0).getTravelers().add(new Traveler("Lavigne", "Avril", 16, airports.get(0)));
+
+        // add planes to detination
+        airports.get(0).getDestinations().get(0).setAvions(airports.get(0).getAvions().get(0));
+        airports.get(0).getDestinations().get(1).setAvions(airports.get(0).getAvions().get(1));
+        airports.get(0).getDestinations().get(2).setAvions(airports.get(0).getAvions().get(3));
+        airports.get(0).getDestinations().get(3).setAvions(airports.get(0).getAvions().get(2));
+
+        //buy tickets
+
+        airports.get(0).getTravelers().get(0).buyBillet(airports.get(0).getDestinations().get(0));
+        airports.get(0).getTravelers().get(1).buyBillet(airports.get(0).getDestinations().get(1));
+        airports.get(0).getTravelers().get(2).buyBillet(airports.get(0).getDestinations().get(3));
+        airports.get(0).getTravelers().get(3).buyBillet(airports.get(0).getDestinations().get(2));
+        airports.get(0).getTravelers().get(4).buyBillet(airports.get(0).getDestinations().get(3));
+        airports.get(0).getTravelers().get(5).buyBillet(airports.get(0).getDestinations().get(1));
+        airports.get(0).getTravelers().get(6).buyBillet(airports.get(0).getDestinations().get(0));
+        airports.get(0).getTravelers().get(7).buyBillet(airports.get(0).getDestinations().get(2));
+        airports.get(0).getTravelers().get(8).buyBillet(airports.get(0).getDestinations().get(3));
 
         while (true) {
             String choice = chooseTodo(airports);
@@ -23,6 +84,8 @@ public class Main {
                 case "show-passengers" -> showTravellers(airports);
                 case "buy-ticket" -> buyTicket(airports);
                 case "link-planes" -> planesToDestination(airports);
+                case "send-to-plane" -> goToPlane(airports);
+                case "fly-plane" -> flyPlane(airports);
                 default -> System.out.println("###### Please choose a valid option ##### \n");
             }
         }
@@ -151,26 +214,36 @@ public class Main {
     }
 
     public static String chooseTodo(ArrayList<Aeroport> airports) {
-        System.out.println("What do you want to do today?");
-        System.out.println("Create-airport");
-        System.out.println("Create-plane");
-        System.out.println("Create-destination");
-        System.out.println("Create-passenger");
-        System.out.println("Show-airports");
+        ArrayList<String> menu = new ArrayList<>();
+        menu.add("What do you want to do today?");
+        menu.add("Create-airport");
+        menu.add("Create-plane");
+        menu.add("Create-destination");
+        menu.add("Create-passenger");
+        menu.add("Show-airports");
         if (checkPlane(airports)) {
-            System.out.println("Show-planes");
+            menu.add("Show-planes");
         }
         if (checkDestinations(airports)) {
-            System.out.println("Show-destinations");
+            menu.add("Show-destinations");
         }
         if (checkPassengers(airports)) {
-            System.out.println("Show-passengers");
-            System.out.println("Buy-ticket");
+            menu.add("Show-passengers");
+            menu.add("Buy-ticket");
         }
-        if(checkPlane(airports) && checkDestinations(airports)){
-            System.out.println("Link-planes");
+        if (checkPlane(airports) && checkDestinations(airports)) {
+            menu.add("Link-planes");
         }
-        System.out.println("\n");
+        if (checkTickets(airports)){
+            menu.add("Send-to-plane");
+        }
+        if (checkPassengersInPlane(airports)){
+            menu.add("Fly-plane");
+        }
+
+        for ( String option : menu){
+            System.out.println(option);
+        }
 
         Scanner scanner = new Scanner(System.in);
         return scanner.next();
@@ -199,6 +272,26 @@ public class Main {
         for (Aeroport airport : airports) {
             if (airport.getDestinations().size() != 0) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean checkTickets(ArrayList<Aeroport> airports){
+        for(Aeroport airport : airports){
+            if(airport.getBillets().size() != 0){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean checkPassengersInPlane(ArrayList<Aeroport> airports){
+        for (Aeroport airport : airports){
+            for(Avion avion : airport.getAvions()){
+                if (avion.getTravelers().size() != 0){
+                    return true;
+                }
             }
         }
         return false;
@@ -348,7 +441,7 @@ public class Main {
             return;
         }
         try {
-            airports.get(index).getTravelers().add(new Traveler(lastName, name, age));
+            airports.get(index).getTravelers().add(new Traveler(lastName, name, age, airports.get(index)));
             System.out.println("Passenger " + name + " at " + airports.get(index).getLieu() + " successfully registered");
             System.out.println("\n");
         } catch (Exception e) {
@@ -442,6 +535,11 @@ public class Main {
             iteration++;
         }
         int planeIndex = scanner.nextInt();
+        if (airports.get(index).getAvions().get(planeIndex).getDestination() != null){
+            System.out.println("Plane is already linked to a destination");
+            System.out.println("\n");
+            return;
+        }
         System.out.println("Which destination would you like to attribute?");
         int iterate =0;
         for (Destination destination : airports.get(index).getDestinations()){
@@ -456,9 +554,82 @@ public class Main {
         }catch (Exception info){
             System.out.println("Error attributing plane");
         }
-
     }
 
+    //send to plane
+
+    public static void goToPlane(ArrayList<Aeroport> airports){
+        System.out.println("Please choose your airport site");
+        Scanner scanner = new Scanner(System.in);
+        String lieu = scanner.next();
+        int index = searchAirport(airports, lieu);
+        if (index == -1){
+            System.out.println("Airport not found");
+            return;
+        }
+        System.out.println("Please choose your passenger");
+        int iterate =0;
+        for (Traveler passenger :airports.get(index).getTravelers()){
+            System.out.println(iterate + " " + passenger.getNom() + " " + passenger.getPrenom());
+            iterate++;
+        }
+        System.out.println((airports.get(index).getTravelers().size() + 1)+ ":  All passengers");
+        int passengerIndex = scanner.nextInt();
+        if (passengerIndex == (airports.get(index).getTravelers().size() + 1)){
+            for(Traveler passenger : airports.get(index).getTravelers()){
+                passenger.goToPlane();
+            }
+        }else {
+            try {
+                airports.get(index).getTravelers().get(passengerIndex).goToPlane();
+            } catch (Exception plane) {
+                System.out.println("Cant send passenger to plane");
+            }
+        }
+    }
+
+    //fly
+
+    public static void flyPlane(ArrayList<Aeroport> airports){
+        System.out.println("Please choose your airport site");
+        Scanner scanner = new Scanner(System.in);
+        String lieu = scanner.next();
+        int index = searchAirport(airports, lieu);
+        if (index == -1){
+            System.out.println("Airport not found");
+            return;
+        }
+        System.out.println("Choose the plane you wish to take off");
+        int iterate =0;
+        for (Avion avion : airports.get(index).getAvions()){
+            if (avion.getTravelers().size()!= 0 && avion.getDestination() != null){
+                System.out.println(iterate + ": " + avion.getModele());
+                iterate++;
+            }
+        }
+        int planeIndex = scanner.nextInt();
+        try {
+            airports.get(index).getAvions().get(planeIndex).fly();
+            System.out.println(airports.get(index).getAvions().get(planeIndex).getModele() + " took of to "
+                    + airports.get(index).getAvions().get(planeIndex).getDestination().getNom());
+        }catch(Exception takeof){
+            System.out.println(airports.get(index).getAvions().get(planeIndex).getModele() + " can't take off!");
+        }
+    }
+
+    public static void showPassengersinPlane(ArrayList<Aeroport> airports){
+        System.out.println("Please choose your airport site");
+        Scanner scanner = new Scanner(System.in);
+        String lieu = scanner.next();
+        int index = searchAirport(airports, lieu);
+        if (index == -1){
+            System.out.println("Airport not found");
+            return;
+        }
+        for(Avion avion : airports.get(index).getAvions()){
+            avion.showTravelerList();
+        }
+    }
 
     public static int searchAirport(ArrayList<Aeroport> airports, String lieu) {
         int index = -1;
@@ -470,6 +641,8 @@ public class Main {
         }
         return index;
     }
+
+
 
 
 }
