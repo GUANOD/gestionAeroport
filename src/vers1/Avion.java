@@ -101,6 +101,7 @@ abstract class Avion{
 
     public void fly() {
         if (this.travelers.size() == 0){
+            System.out.println("Entered");
             System.out.println(this.modele + " can't fly because it has no passengers");
             return;
         }
@@ -121,7 +122,9 @@ abstract class Avion{
             System.out.println(this.modele + " has landed");
             for (Traveler traveler : this.travelers){
                 traveler.setEmbarque(false);
+                traveler.getAirport().getBillets().remove(traveler.getBillet());
                 traveler.setBillet(null);
+
                 System.out.println(traveler.getPrenom() + " " + traveler.getNom() + " got out of " + this.modele + " at "+ this.destination.getNom());
             }
             this.travelers = new ArrayList<>();

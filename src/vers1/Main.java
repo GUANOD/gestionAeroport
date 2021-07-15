@@ -86,6 +86,9 @@ public class Main {
                 case "link-planes" -> planesToDestination(airports);
                 case "send-to-plane" -> goToPlane(airports);
                 case "fly-plane" -> flyPlane(airports);
+                case "show-boarded-passengers" -> showPassengersinPlane(airports);
+                case "land-plane" -> landPlane(airports);
+                case "show-tickets" -> showTickets(airports);
                 default -> System.out.println("###### Please choose a valid option ##### \n");
             }
         }
@@ -223,27 +226,50 @@ public class Main {
         menu.add("Show-airports");
         if (checkPlane(airports)) {
             menu.add("Show-planes");
+        }else{
+            menu.remove("Show-planes");
         }
         if (checkDestinations(airports)) {
             menu.add("Show-destinations");
+        }else{
+            menu.remove("Show-destinations");
         }
         if (checkPassengers(airports)) {
             menu.add("Show-passengers");
             menu.add("Buy-ticket");
+        }else{
+            menu.remove("Show-passengers");
+            menu.remove("Buy-ticket");
         }
         if (checkPlane(airports) && checkDestinations(airports)) {
             menu.add("Link-planes");
+        }else{
+            menu.remove("Link-planes");
         }
         if (checkTickets(airports)){
+            menu.add("Show-tickets");
             menu.add("Send-to-plane");
+        }else{
+            menu.remove("Send-to-plane");
+            menu.remove("Show-tickets");
         }
         if (checkPassengersInPlane(airports)){
             menu.add("Fly-plane");
+            menu.add("Show-boarded-passengers");
+        }else{
+            menu.remove("Fly-plane");
+            menu.remove("Show-boarded-passengers");
+        }
+        if(checkFlyingPlanes(airports)){
+            menu.add("Land-plane");
+        }else{
+            menu.remove("Land-plane");
         }
 
         for ( String option : menu){
             System.out.println(option);
         }
+        System.out.println("\n");
 
         Scanner scanner = new Scanner(System.in);
         return scanner.next();
@@ -290,6 +316,17 @@ public class Main {
         for (Aeroport airport : airports){
             for(Avion avion : airport.getAvions()){
                 if (avion.getTravelers().size() != 0){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean checkFlyingPlanes(ArrayList<Aeroport> airports){
+        for (Aeroport airport : airports){
+            for (Avion avion : airport.getAvions()){
+                if (avion.getVol_sol()){
                     return true;
                 }
             }
@@ -369,7 +406,8 @@ public class Main {
             System.out.println("Planes in " + airport.getLieu() + " airport");
             for (Avion avion : airport.getAvions()) {
                 System.out.println(avion.getModele() +
-                        (avion.getDestination()==null? " with no destination yet" : " destination " + avion.getDestination().getNom()) );
+                        (avion.getDestination()==null? " with no destination yet" : " destination " + avion.getDestination().getNom())+
+                        (avion.getVol_sol()? "currently on the air": ""));
             }
             System.out.println("\n");
         }
@@ -501,12 +539,27 @@ public class Main {
         }
         try{
             airports.get(index).getTravelers().get(passengerIndex).buyBillet(airports.get(index).getDestinations().get(destinationIndex));
-            System.out.println("Ticket to" + airports.get(index).getDestinations().get(destinationIndex).getNom() +
-                    " for " + airports.get(index).getTravelers().get(passengerIndex).getNom()+ " successfully bought");
         }catch(Exception ticket){
             System.out.println("Error buying ticket");
         }
 
+    }
+
+    //show tickets
+
+    public static void showTickets(ArrayList<Aeroport> airports){
+        for(Aeroport airport: airports){
+            if(airport.getBillets().size()!=0){
+                System.out.println("##### Valid tickets in " + airport.getLieu()+" ######" );
+                for(Billet billet : airport.getBillets()){
+                    System.out.println("Ticket to "+ billet.getDestination().getNom()+ " for "+
+                            billet.getTraveler().getNom() + " "+ billet.getTraveler().getPrenom()+
+                            " in "+ billet.getAvion().getModele()+ " seated at seat "+ billet.getPlace() );
+                }
+            }else{
+                System.out.println("No valid tickets in " + airport.getLieu() + " at the moment.");
+            }
+        }
     }
 
     // add planes to destination
@@ -570,12 +623,12 @@ public class Main {
         System.out.println("Please choose your passenger");
         int iterate =0;
         for (Traveler passenger :airports.get(index).getTravelers()){
-            System.out.println(iterate + " " + passenger.getNom() + " " + passenger.getPrenom());
+            System.out.println(iterate + ": " + passenger.getNom() + " " + passenger.getPrenom());
             iterate++;
         }
-        System.out.println((airports.get(index).getTravelers().size() + 1)+ ":  All passengers");
+        System.out.println(airports.get(index).getTravelers().size()+ ":  All passengers");
         int passengerIndex = scanner.nextInt();
-        if (passengerIndex == (airports.get(index).getTravelers().size() + 1)){
+        if (passengerIndex == airports.get(index).getTravelers().size() ){
             for(Traveler passenger : airports.get(index).getTravelers()){
                 passenger.goToPlane();
             }
@@ -604,17 +657,61 @@ public class Main {
         for (Avion avion : airports.get(index).getAvions()){
             if (avion.getTravelers().size()!= 0 && avion.getDestination() != null){
                 System.out.println(iterate + ": " + avion.getModele());
-                iterate++;
             }
+            iterate++;
         }
+        System.out.println(airports.get(index).getAvions().size()+ ": All planes");
         int planeIndex = scanner.nextInt();
+        if (planeIndex == airports.get(index).getAvions().size()){
+            for(Avion avion :airports.get(index).getAvions()){
+                if(avion.getTravelers().size()!= 0 && avion.getDestination() != null){
+                    avion.fly();
+                }
+            }
+            return;
+        }
         try {
             airports.get(index).getAvions().get(planeIndex).fly();
-            System.out.println(airports.get(index).getAvions().get(planeIndex).getModele() + " took of to "
-                    + airports.get(index).getAvions().get(planeIndex).getDestination().getNom());
         }catch(Exception takeof){
-            System.out.println(airports.get(index).getAvions().get(planeIndex).getModele() + " can't take off!");
+            System.out.println("Plane " + planeIndex + " does not exist" );
         }
+    }
+
+    // land
+
+    public static void landPlane(ArrayList<Aeroport> airports){
+        System.out.println("Please choose your airport site");
+        Scanner scanner = new Scanner(System.in);
+        String lieu = scanner.next();
+        int index = searchAirport(airports, lieu);
+        if (index == -1){
+            System.out.println("Airport not found");
+            return;
+        }
+        System.out.println("Choose the plane you want to land");
+        int iterate =0;
+        for (Avion avion : airports.get(index).getAvions()){
+            if (avion.getVol_sol()){
+                System.out.println(iterate + ": " + avion.getModele());
+            }
+            iterate++;
+        }
+        System.out.println(airports.get(index).getAvions().size()+ ": All planes");
+        int planeIndex = scanner.nextInt();
+        if (planeIndex == airports.get(index).getAvions().size()){
+            for(Avion avion :airports.get(index).getAvions()){
+                if(avion.getVol_sol()){
+                    avion.land();
+                }
+            }
+            return;
+        }
+        try {
+            airports.get(index).getAvions().get(planeIndex).land();
+        }catch(Exception takeof){
+            System.out.println("Plane " + planeIndex + " does not exist" );
+        }
+
     }
 
     public static void showPassengersinPlane(ArrayList<Aeroport> airports){
@@ -627,8 +724,12 @@ public class Main {
             return;
         }
         for(Avion avion : airports.get(index).getAvions()){
-            avion.showTravelerList();
+            if (avion.getTravelers().size()!= 0){
+                avion.showTravelerList();
+            }
         }
+
+
     }
 
     public static int searchAirport(ArrayList<Aeroport> airports, String lieu) {

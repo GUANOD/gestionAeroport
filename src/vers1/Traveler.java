@@ -91,6 +91,7 @@ public class Traveler {
 
     public void deleteTravel(String reason){
         this.billet.getAvion().getNbPLaceDispo().add(this.billet.getPlace());
+        this.airport.getBillets().remove(this.billet);
         this.billet = null;
         System.out.println(this.nom + " Billet reemboursee car " + reason);
     }
