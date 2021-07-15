@@ -89,6 +89,7 @@ public class Main {
                 case "show-boarded-passengers" -> showPassengersinPlane(airports);
                 case "land-plane" -> landPlane(airports);
                 case "show-tickets" -> showTickets(airports);
+                case "edit-tickets" -> editTicket(airports);
                 default -> System.out.println("###### Please choose a valid option ##### \n");
             }
         }
@@ -249,9 +250,11 @@ public class Main {
         if (checkTickets(airports)){
             menu.add("Show-tickets");
             menu.add("Send-to-plane");
+            menu.add("Edit-tickets");
         }else{
             menu.remove("Send-to-plane");
             menu.remove("Show-tickets");
+            menu.remove("Edit-tickets");
         }
         if (checkPassengersInPlane(airports)){
             menu.add("Fly-plane");
@@ -728,8 +731,87 @@ public class Main {
                 avion.showTravelerList();
             }
         }
+    }
 
+    public static void editTicket(ArrayList<Aeroport> airports) {
+        System.out.println("Please choose your airport site");
+        Scanner scanner = new Scanner(System.in);
+        String lieu = scanner.next();
+        int index = searchAirport(airports, lieu);
+        if (index == -1) {
+            System.out.println("Airport not found");
+            return;
+        }
+        System.out.println("Which ticket would you like to edit?");
+        int iterate =0;
+        for (Billet billet : airports.get(index).getBillets()) {
+            System.out.println(iterate+ ": " + billet.getTraveler().getNom() + "'s ticket to " + billet.getDestination().getNom());
+            iterate++;
+        }
+        int billetIndex = scanner.nextInt();
+        System.out.println("What would you like to change?");
+        int run = 1;
+        while (run != 0) {
+            run = edit(airports.get(index).getBillets().get(billetIndex));
+        }
+    }
 
+    public static int edit(Billet billet){
+        System.out.println("1 : Destination");
+        System.out.println("2 : Price");
+        System.out.println("3 : Delete");
+        System.out.println("4: Cancel");
+        Scanner scanner = new Scanner(System.in);
+        int choice = scanner.nextInt();
+        if(choice > 4 || choice < 1){
+            System.out.println("Please select valid option");
+            System.out.println("\n");
+            edit(billet);
+        }
+        switch (choice) {
+            case 1 -> {
+                System.out.println("Enter the new destination:");
+                String destination = scanner.next();
+                for (Destination dest : billet.getTraveler().getAirport().getDestinations()) {
+                    if (dest.getNom().equalsIgnoreCase(destination)) {
+                        billet.setDestination(dest);
+                        System.out.println("Destination successfully changed ");
+                        return 1;
+                    }
+                }
+                System.out.println("Unable to find destination");
+                return 1;
+            }
+            case 2 -> {
+                System.out.println("Enter the new price:");
+                billet.setPrix(scanner.nextDouble());
+                System.out.println("Price suiccessfully changed");
+                return 1;
+            }
+            case 3 -> {
+                System.out.println("Are you sure you want to delete ticket?");
+                System.out.println("Y/N");
+                String sure = scanner.next();
+                if (sure.equalsIgnoreCase("Y")) {
+                    billet.getTraveler().deleteTravel("Deleted");
+                    return 0;
+                } else if (sure.equalsIgnoreCase("N")) {
+                    System.out.println("Deletion canceled");
+                    return 1;
+                } else {
+                    System.out.println("Could not understand choice. Deletion canceled");
+                    return 1;
+                }
+            }
+            case 4 -> {
+                System.out.println("Edit cancelled");
+                return 0;
+            }
+            default -> {
+                System.out.println("No changes made.");
+                return 1;
+            }
+        }
     }
 
     public static int searchAirport(ArrayList<Aeroport> airports, String lieu) {
@@ -742,8 +824,5 @@ public class Main {
         }
         return index;
     }
-
-
-
 
 }

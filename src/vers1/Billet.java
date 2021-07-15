@@ -25,6 +25,10 @@ public class Billet {
         return prix;
     }
 
+    public void setPrix(double prix){
+        this.prix=prix;
+    }
+
     public int getPlace() {
         return place;
     }
