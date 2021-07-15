@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class Destination {
 
-    String nom;
-    double prix ;
-    Avion avion;
-    int distance;
+    private String nom;
+    private double prix ;
+    private Avion avion;
+    private int distance;
 
     //construc
     public Destination(String nom, double prix, int distance) {
@@ -38,8 +38,9 @@ public class Destination {
         return avion;
     }
 
-    public void setAvions(ArrayList<Avion> avions) {
+    public void setAvions(Avion avion) {
         this.avion = avion;
+        avion.setDestination(this);
     }
 
     public int getDistance() {
